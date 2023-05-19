@@ -1,0 +1,622 @@
+:root {
+  --succes-texte: green;
+  --succes-fond: rgba(0, 95, 0, 0.5);
+  --echec-texte: rgb(197, 121, 121)(250, 178, 178);
+  --echec-fond: rgba(196, 0, 0, 0.5);
+ --color-text: white;
+ 
+}
+
+
+/* Mise en page des questions du quiz*/
+main.quiz {
+  flex-direction: column;
+  display: none;
+}
+
+main.quiz > header {
+  font-family: 'Rye', cursive;
+  font-size: 4rem;
+
+
+  position: relative;
+}
+/*Histoire*/
+.textHistoire{
+  overflow: hidden;
+  border-right: hidden;
+  border-right: .15em solid white;
+  white-space: nowrap;
+  margin: 0 auto;
+  letter-spacing: .15rem;
+  animation: typehistoire 3s steps(30, end), apparition .75s step-end infinite ;
+}
+/*Les questions*/
+section .titre-question {
+  font-size: 1.5rem;
+  width: 100%;
+  margin-top: 50px;
+  animation-name: changerChoixCouleur;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  
+  
+}
+/*Les choix de reponses*/
+section .les-choix-de-reponse {
+  width: 50vw;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+ 
+}
+section .les-choix-de-reponse.desactiver {
+  pointer-events: none;
+}
+div.choix{
+  font-size: 0.5rem;
+  font-weight: bold;
+  width: 200px;
+  height: 200px;
+  color: var(--color-text);
+}
+.choix-container {
+  position: relative;
+}
+.texte-choix {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: black; /* Start with black color */
+  text-align: center;
+  padding: 0.5rem;
+  animation-name: text-appear;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  font-size: 1rem;
+}
+/*Images*/
+.image-choix {
+  width: 200px;
+  height: 200px;
+  display: block;
+  justify-content: space-around;
+  border: 10px solid rgb(255, 255, 255);
+}
+
+/*intro*/
+.anim-titre-intro {
+  font-family: 'Rye', cursive;
+  text-align: center;
+  font-size: 8rem;
+  animation-name: bounce ;
+  animation-duration: 3s;
+}
+/*Pied de page*/
+footer h1 {
+  position: relative;
+  font-size: 32px;
+  text-align: center;
+}
+
+footer h1::before,
+footer h1::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 40%;
+  z-index: -1;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  background: linear-gradient(to right, rgb(236, 127, 53), rgb(228, 90, 90));
+}
+
+
+footer h1::before {
+  left: 0;
+  transform: skewX(55deg);
+  animation-name: split-left;
+}
+
+footer h1::after {
+  right: 0;
+  transform: skewX(-55deg);
+  animation-name: split-right;
+}
+
+
+/*Barre d'avancement*/
+.barre-avancement {
+  width: 0%;
+  height: 20px;
+  background-image: linear-gradient(to right, #b49965, #c7770fc5);
+  position: fixed;
+  top: 150px;
+  left: 0;
+  z-index: 100;
+  transition: width 0.3s ease;
+}
+
+
+.barre-avancement::after {
+  content: "";
+  display: block;
+  height: 5px;
+  background-color: rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: -1;
+}
+
+
+/*Animation pour les reponses*/
+.reponse-succes {
+  animation: reponse-succes-animation 1s ease forwards;
+}
+.reponse-echec {
+  animation: reponse-echec-animation 1s ease forwards;
+}
+
+/*interface de fin*/
+.fin {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgb(0, 0, 0);
+  font-size: 2rem;
+  
+}
+
+/*bouton recommencer*/
+.recommencer-button {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 5 0 rgba(216, 49, 8, 0.897); 
+  transition: box-shadow 0.3s; 
+  animation: glow 0.5s infinite; 
+}
+.recommencer-button:hover {
+  background-color: rgb(19, 155, 92);
+}
+/*sa suit le cursor*/
+.light-ball {
+  position: absolute;
+  width: 20px;
+  height: 20px;      
+  border-radius: 50%;
+  background-color: rgb(199, 150, 14);
+  pointer-events: none; /* Ensures the light ball doesn't interfere with mouse events */
+  z-index: 9999; 
+}
+
+
+/*Score*/
+.score-compteur {
+  font-size: 24px;
+  font-weight: bold;
+  color: #f5eaea;
+}
+.score-compteur-anim{
+  animation-name: score-anim;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+}
+
+
+
+/*Mes animations*/
+/*pour le score*/
+@keyframes score-anim {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+/*si la réponse cliquée est la bonne*/
+
+@keyframes reponse-succes-animation {
+  0% {
+    background-color: inherit;
+    border-color: inherit;
+    transform: translate(0, -100%);
+    opacity: 0;
+  }
+  100% {
+    background-color: var(--succes-fond);
+   
+    border-color: var(--succes-fond);
+    transform: scale(5), translate(0);
+    
+    opacity: 1;
+  }
+}
+/*si la réponse cliquée est la mauvaise*/
+@keyframes reponse-echec-animation {
+  0% {
+    background-color: inherit;
+    border-color: inherit;
+    transform: scale(1), translate(-100%);
+  
+   
+    opacity: 0;
+  }
+  100% {
+    background-color: var(--echec-fond);
+    border-color: var(--echec-fond); 
+    transform: scale(2), translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Animation pour la barre d'avancement */
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/*Animation, sa tape histoire*/
+@keyframes typehistoire {
+  from { width: 0 }
+  to { width: 100% }
+}
+@keyframes apparition {
+  from, to { border-color: transparent }
+  50% { border-color: rgb(255, 255, 255) }
+}
+
+/*animation pour mes questions*/
+@keyframes question {
+  0% {
+      transform: scale(1.1);
+      opacity: 1;
+      
+    }
+    50% {
+      transform: scale(1.5);
+      opacity: 0.9;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  /*Animation de l'intro*/
+  @keyframes bounce {
+    0% {
+      transform: translateY(0)  scale(1);
+      opacity: 0;
+    }
+    30% {
+      transform: translateY(-30%)  scale(1.2);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(0)  scale(1);
+      opacity: 1;
+    }
+    80% {
+      transform: translateY(-15%)  scale(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(0)  scale(1);
+      opacity: 0;
+    }
+  }
+  /*animation pour cliquer pour debuter le quiz*/
+@keyframes split-left {
+  0% {
+    width: 0;
+    left: 50%;
+  }
+  100% {
+    width: 50%;
+    left: 0;
+  }
+}
+
+@keyframes split-right {
+  0% {
+    width: 0;
+    right: 50%;
+  }
+  100% {
+    width: 50%;
+    right: 0;
+  }
+}
+.fade-out-animation {
+  animation: fade-out 0.5s;
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes text-appear {
+  from {
+    color: rgb(228, 155, 20); 
+    width: 0;
+  }
+  to {
+    color: var(--color-text); 
+    width: 100%; 
+  }
+}
+/*Animation pour le bouton recommencer*/
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px 0 rgba(255, 0, 0, 0.8); 
+  }
+  50% {
+    box-shadow: 0 0 5px 15px rgba(131, 23, 9, 0.363); 
+  }
+  100% {
+    box-shadow: 0 0 155px 0 rgba(202, 16, 16, 0.966); 
+  }
+}
+
+/*pour ipad/tablette */
+@media screen and (min-width: 820px) {
+  :root {
+    --succes-texte: rgb(166, 255, 166);
+    --succes-fond: rgba(13, 77, 13, 0.5);
+    --echec-texte: rgb(197, 121, 121)(250, 178, 178);
+    --echec-fond: rgba(196, 0, 0, 0.5);
+    --color-main-texte: black;
+   --color-text: rgb(0, 0, 0);
+   
+  }
+
+  section .les-choix-de-reponse {
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+  .image-choix {
+    width: 300px;
+    height: 300px;
+   justify-content: space-around;
+  }
+  div.choix{
+    font-size: 1rem;
+    font-weight: bold;
+    width: 300px;
+    height: 300px;
+    color: var(--color-text);
+    justify-content: space-around;
+
+  }
+  .textHistoire{
+    overflow: hidden;
+    border-right: hidden;
+    border-right: .15em solid white;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: .10rem;
+    animation: typehistoire 3s steps(30, end), apparition .75s step-end infinite ;
+    color: var(--color-main-texte);
+  }
+  
+  section .titre-question {
+    font-size: 1.5rem;
+    width: 100%;
+    margin-top: 50px;
+    animation-name: question;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    color: var(--color-text);
+    
+    
+  }
+  section .les-choix-de-reponse {
+    width: 50vw;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+   
+  }
+  
+  
+  .choix-container {
+    position: relative;
+  }
+  .texte-choix {
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+    width: 100%;
+    background-color: rgba(230, 224, 224, 0.7);
+    color: var(--color-text);
+    text-align: center;
+    padding: 0.5rem;
+    animation-name: text-appear;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    font-size: 1rem;
+  }
+  @keyframes text-appear {
+    from {
+      color: rgb(61, 60, 59); 
+      width: 0;
+    }
+    to {
+      color: var(--color-text); 
+      width: 100%; 
+    }
+  }
+  
+
+  
+  footer h1::before,
+  footer h1::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 40%;
+    z-index: -1;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    background: linear-gradient(to right, rgb(255, 0, 0), rgb(236, 187, 187));
+  }
+  
+  
+  footer h1::before {
+    left: 0;
+    transform: skewX(65deg);
+    animation-name: split-left;
+  }
+  
+  footer h1::after {
+    right: 0;
+    transform: skewX(-65deg);
+    animation-name: split-right;
+  }
+  
+  
+  
+  .barre-avancement {
+    width: 0%;
+    height: 20px;
+    background-image: linear-gradient(to right, #9b9898, #000000c5);
+    position: fixed;
+    top: 150px;
+    left: 0;
+    z-index: 100;
+    transition: width 0.3s ease;
+  }
+  
+  .barre-avancement::after {
+    content: "";
+    display: block;
+    height: 7px;
+    background-color: rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: -1;
+  }
+  
+  
+  .reponse-succes {
+    animation: reponse-succes-animation 1s ease forwards;
+  }
+  .reponse-echec {
+    animation: reponse-echec-animation 1s ease forwards;
+  }
+  
+  .fin {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgb(0, 0, 0);
+    font-size: 2rem;
+    
+  }
+  
+  .recommencer-button {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 5 0 rgba(216, 49, 8, 0.897); 
+    transition: box-shadow 0.3s; 
+    animation: glow 0.5s infinite; 
+  }
+  
+}
+
+
+
+@media screen and (min-width: 1025px) {
+  
+  section .les-choix-de-reponse {
+    width: 90vw;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.fin {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgb(212, 88, 17);
+  font-size: 2rem;
+  
+}
+
+.recommencer-button {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 5 0 rgba(216, 49, 8, 0.897); 
+  transition: box-shadow 0.3s; 
+  animation: glow 0.5s infinite; 
+}
+.barre-avancement {
+  width: 0%;
+  height: 20px;
+  background-image: linear-gradient(to right, #ff5757, #000000c5);
+  position: fixed;
+  top: 150px;
+  left: 0;
+  z-index: 100;                  
+  transition: width 0.3s ease;
+}
+
+.barre-avancement::after {
+  content: "";
+  display: block;
+  height: 7px;
+  background-color: rgba(131, 103, 103, 0.1);
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: -1;
+}
+}
